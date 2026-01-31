@@ -71,10 +71,10 @@ public static class PerformanceAttributesExtensions
         }
 
         var relaxPp = Math.Pow(
-            Math.Pow(performance.PerformancePointsAim ?? 0, 1.15) +
+            Math.Pow(performance.PerformancePointsAim ?? 0, 1.2) +
             Math.Pow(performance.PerformancePointsSpeed ?? 0, 0.65 * accDepression) +
-            Math.Pow(performance.PerformancePointsAccuracy ?? 0, 1.1) +
-            Math.Pow(performance.PerformancePointsFlashlight ?? 0, 1.13),
+            Math.Pow(performance.PerformancePointsAccuracy ?? 0, 1.11) +
+            Math.Pow(performance.PerformancePointsFlashlight ?? 0, 1.15),
             1.0 / 1.1
         ) * multi;
 
@@ -87,9 +87,9 @@ public static class PerformanceAttributesExtensions
 
         var relaxPp = Math.Pow(
             Math.Pow(performance.PerformancePointsAim ?? 0, 0.6) +
-            Math.Pow(performance.PerformancePointsSpeed ?? 0, 1.3) +
-            Math.Pow(performance.PerformancePointsAccuracy ?? 0, 1.05) +
-            Math.Pow(performance.PerformancePointsFlashlight ?? 0, 1.13),
+            Math.Pow(performance.PerformancePointsSpeed ?? 0, 1.2) +
+            Math.Pow(performance.PerformancePointsAccuracy ?? 0, 1.11) +
+            Math.Pow(performance.PerformancePointsFlashlight ?? 0, 1.15),
             1.0 / 1.1
         ) * multi;
 
