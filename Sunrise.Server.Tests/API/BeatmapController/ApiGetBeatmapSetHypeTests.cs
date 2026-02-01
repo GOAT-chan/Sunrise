@@ -1,11 +1,12 @@
-﻿using System.Net;
+using System.Net;
 using Sunrise.API.Serializable.Response;
 using Sunrise.Shared.Application;
+using Sunrise.Shared.Enums.Beatmaps;
+using Sunrise.Shared.Extensions.Beatmaps;
 using Sunrise.Tests.Abstracts;
 using Sunrise.Tests.Extensions;
 using Sunrise.Tests.Services.Mock;
 using Sunrise.Tests.Utils;
-using Sunrise.Tests;
 
 namespace Sunrise.Server.Tests.API.BeatmapController;
 
@@ -24,13 +25,14 @@ public class ApiGetBeatmapSetHypeTests(IntegrationDatabaseFixture fixture) : Api
 
         var beatmapSet = _mocker.Beatmap.GetRandomBeatmapSet();
         beatmapSet.Id = 1;
+        beatmapSet.StatusString = BeatmapStatusWeb.Graveyard.BeatmapStatusWebToString();
 
         await _mocker.Beatmap.MockBeatmapSet(beatmapSet);
 
         if (shouldHypeBefore)
         {
             var user = await CreateTestUser();
-            var addBeatmapHypeResult = await Database.Beatmaps.Hypes.AddBeatmapHypeFromUserInventory(user, beatmapSet.Id);
+            var addBeatmapHypeResult = await Database.Beatmaps.Hypes.AddBeatmapHypeFromUserInventory(user, beatmapSet.Id, beatmapSet.StatusGeneric);
             if (addBeatmapHypeResult.IsFailure)
                 throw new Exception(addBeatmapHypeResult.Error);
         }
@@ -47,7 +49,7 @@ public class ApiGetBeatmapSetHypeTests(IntegrationDatabaseFixture fixture) : Api
         Assert.Equal(shouldHypeBefore ? 1 : 0, content.CurrentHypes);
         Assert.Equal(Configuration.HypesToStartHypeTrain, content.RequiredHypes);
     }
-    
+
     [Theory]
     [InlineData("-1")]
     public async Task TestGetBeatmapSetHypeInvalidBeatmapSetId(string beatmapSetId)
