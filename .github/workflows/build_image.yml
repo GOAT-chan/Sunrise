@@ -1,0 +1,26 @@
+on: [push]
+name: Build Docker image
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+      - name: Build image
+        run: docker build --platform linux/amd64,linux/arm64 --output "type=image" --tag sunrise .
+      - name: Export images
+        run: |
+             docker save --platform linux/amd64 --output sunrise_amd64.tar sunrise:latest
+             docker save --platform linux/arm64 --output sunrise_arm64.tar sunrise:latest
+      - name: Upload image
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          path: |
+                sunrise_amd64.tar
+                sunrise_arm64.tar
