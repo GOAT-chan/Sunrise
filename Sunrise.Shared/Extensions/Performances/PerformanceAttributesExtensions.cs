@@ -65,13 +65,11 @@ public static class PerformanceAttributesExtensions
             }
         }
 
-        if (mods.HasFlag(Mods.HardRock))
-        {
-            multi *= Math.Min(2, Math.Max(1, 1 * (CalculateMissPenalty(performance) / 1.85)));
-        }
+        // Apply miss penalty to all scores with RX
+        multi *= Math.Min(2, Math.Max(1, 1 * (CalculateMissPenalty(performance) / 1.85)));
 
         var relaxPp = Math.Pow(
-            Math.Pow(performance.PerformancePointsAim ?? 0, 1.2) +
+            Math.Pow(performance.PerformancePointsAim ?? 0, 1.16) +
             Math.Pow(performance.PerformancePointsSpeed ?? 0, 0.65 * accDepression) +
             Math.Pow(performance.PerformancePointsAccuracy ?? 0, 1.11) +
             Math.Pow(performance.PerformancePointsFlashlight ?? 0, 1.15),
