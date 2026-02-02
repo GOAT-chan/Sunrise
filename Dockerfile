@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine3.23 AS build
 
 ARG TARGETARCH
 
@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN cd Sunrise.Server && dotnet publish Sunrise.Server.csproj -c Release --self-contained --runtime linux-musl-${TARGETARCH} -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugSymbols=false -p:DebugType=None -p:EnableCompressionInSingleFile=true -o publish
+RUN cd Sunrise.Server && dotnet publish Sunrise.Server.csproj -c Release --self-contained --use-current-runtime -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugSymbols=false -p:DebugType=None -p:EnableCompressionInSingleFile=true -o publish
 
 FROM alpine:3.23 AS pack
 
